@@ -5,12 +5,7 @@ const Form = () => {
   const [level, setLevel] = useState("")
   const [message, setmessage] = useState("This site is amazing...")
   return (
-    <form
-      name="contact"
-      method="POST"
-      data-netlify="true"
-      action="/thanks-page"
-    >
+    <form name="contact" method="POST" data-netlify="true">
       <label htmlFor="name">Your name: </label>
       <p>
         <input
