@@ -6,7 +6,7 @@ import SEO from "../components/seo"
 
 const ADD_TODO = gql`
   mutation AddTodo($body: String!) {
-    addTodo(body: "first todo") {
+    addTodo(body: $body) {
       id
     }
   }
