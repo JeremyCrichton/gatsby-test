@@ -16,6 +16,7 @@ const client = new ApolloClient({
   }),
 })
 
-export const wrapRootElement = ({ element }) => (
-  <ApolloProvider client={client}>{element}</ApolloProvider>
-)
+export const wrapRootElement = ({ element }) => {
+  console.log("gatsby ssr running")
+  return <ApolloProvider client={client}>{element}</ApolloProvider>
+}

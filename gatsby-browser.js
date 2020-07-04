@@ -16,6 +16,7 @@ export { wrapRootElement } from "./gatsby-ssr"
 //   }),
 // })
 
-// export const wrapRootElement = ({ element }) => (
-//   <ApolloProvider client={client}>{element}</ApolloProvider>
-// )
+// export const wrapRootElement = ({ element }) => {
+//   console.log("gatsby browser running")
+//   return <ApolloProvider client={client}>{element}</ApolloProvider>
+// }

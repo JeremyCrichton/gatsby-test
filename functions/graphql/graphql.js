@@ -12,7 +12,7 @@ const typeDefs = gql`
     completed: Boolean!
   }
   type Mutation {
-    addTodo(text: String!): Todo
+    addTodo(body: String!): Todo
     updateTodoCompleted(id: ID!): Todo
   }
 `
