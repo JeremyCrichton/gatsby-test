@@ -4,13 +4,40 @@ const { ApolloServer, gql } = require("apollo-server-lambda")
 const typeDefs = gql`
   type Query {
     hello: String
+    todos: [Todo]!
+  }
+  type Todo {
+    id: ID!
+    body: String!
+    completed: Boolean!
+  }
+  type Mutation {
+    addTodo(text: String!): Todo
+    updateTodoCompleted(id: ID!): Todo
   }
 `
+const todos = {}
+let todoIndex = 0
 
 // Provide resolver functions for your schema fields
 const resolvers = {
   Query: {
-    hello: () => "Hello world!",
+    hello: () => "Hello Launch School world!",
+    todos: () => {
+      return Object.values(todos)
+    },
+  },
+  Mutation: {
+    addTodo: (_, { body }) => {
+      todoIndex++
+      const id = `key-${todoIndex}`
+      todos[id] = { id, body, completed: false }
+      return todos[id]
+    },
+    updateTodoCompleted: (_, { id }) => {
+      todos[id].completed = true
+      return todos[id]
+    },
   },
 }
 
