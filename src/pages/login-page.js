@@ -6,9 +6,9 @@ import Layout from "../components/layout"
 import SEO from "../components/seo"
 
 const LoginPage = () => {
-  useEffect(() => {
-    netlifyIdentity.init({})
-  })
+  // useEffect(() => {
+  //   netlifyIdentity.init({})
+  // })
 
   return (
     <Layout>
@@ -24,7 +24,8 @@ const LoginPage = () => {
       <br />
       <button
         onClick={() => {
-          console.log(netlifyIdentity.currentUser())
+          // console.log(netlifyIdentity.currentUser())
+          console.log("Hi")
         }}
       >
         Log Current User
