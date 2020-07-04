@@ -13,7 +13,7 @@ const Form = () => {
     >
       <input type="hidden" name="bot-field" />
       <input type="hidden" name="form-name" value="contact" />
-      <label htmlFor="name">Your name: </label>
+      <label htmlFor="name">Who are you? </label>
       <p>
         <input
           name="name"
@@ -21,7 +21,7 @@ const Form = () => {
           onChange={e => setName(e.target.value)}
         />
       </p>
-      <label htmlFor="level">How awesome am I?</label>
+      <label htmlFor="level">How great is Launch School?</label>
       <p>
         <select
           value={level}
@@ -29,11 +29,14 @@ const Form = () => {
           name="level"
           id="level"
         >
-          <option value="most">The most</option>
-          <option value="more">Even more than that</option>
+          <option value="more">So great</option>
+          <option value="more">Pretty great</option>
+          <option value="most">
+            The most greatest (...Chris, is this you?)
+          </option>
         </select>
       </p>
-      <label htmlFor="message">Write a nice message to me: </label>
+      <label htmlFor="message">Write a nice message to us: </label>
       <p>
         <textarea
           name="message"

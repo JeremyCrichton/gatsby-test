@@ -9,7 +9,7 @@ const IndexPage = () => (
     <SEO title="Home" />
     <h1>This is the Homepage</h1>
     <Link to="/page-2/">Go to page 2</Link> <br />
-    <Link to="/form-page/">Go to the form</Link> <br />
+    <Link to="/login-page/">Go to the good stuff...</Link> <br />
   </Layout>
 )
 
