@@ -1,7 +1,35 @@
 import React, { useState, useReducer } from "react"
+import { gql, useMutation, useQuery } from "@apollo/client"
 
 import Layout from "../components/layout"
 import SEO from "../components/seo"
+
+const ADD_TODO = gql`
+  mutation AddTodo($type: String!) {
+    addTodo(body: "first todo") {
+      id
+    }
+  }
+`
+
+const UPDATE_TODO_COMPLETED = gql`
+  mutation UpdateTodoCompleted($id: ID!) {
+    updateTodoCompleted(id: $id) {
+      body
+      completed
+    }
+  }
+`
+
+const GET_TODOS = gql`
+  query GetTodos {
+    todos {
+      id
+      body
+      completed
+    }
+  }
+`
 
 const todosReducer = (state, action) => {
   switch (action.type) {
@@ -22,11 +50,16 @@ const TodoPage = () => {
   const [newTodoBody, setNewTodoBody] = useState("")
   // const [todos, setTodos] = useState([])
   const [todos, dispatch] = useReducer(todosReducer, [])
+  // data we need is coming from the query below so don't need 2nd const {data} here
+  const [addTodo] = useMutation(ADD_TODO)
+  const [updateTodoCompleted] = useMutation(UPDATE_TODO_COMPLETED)
+  const { loading, error, data } = useQuery(GET_TODOS)
 
   const handleSubmit = e => {
     e.preventDefault()
-
-    dispatch({ type: "addTodo", payload: newTodoBody })
+    addTodo({ variables: { body: newTodoBody } })
+    // dispatch({ type: "addTodo", payload: newTodoBody })
+    setNewTodoBody("")
   }
 
   return (
@@ -44,23 +77,24 @@ const TodoPage = () => {
         </p>
         <input type="submit" value="Add" />
       </form>
-      <ul style={{ listStyle: "none", marginLeft: "0" }}>
-        {todos.map((todo, i) => (
-          <li key={i}>
-            <input
-              onChange={() => {
-                dispatch({
-                  type: "toggleTodoCompleted",
-                  payload: i,
-                })
-              }}
-              checked={todo.completed}
-              type="checkbox"
-            />
-            <span style={{ marginLeft: "10px" }}>{todo.body}</span>
-          </li>
-        ))}
-      </ul>
+      {loading && <div>loading...</div>}
+      {error && <div>{error.message}</div>}
+      {!loading && !error && (
+        <ul style={{ listStyle: "none", marginLeft: "0" }}>
+          {todos.map(todo => (
+            <li key={todo.id}>
+              <input
+                onChange={() => {
+                  updateTodoCompleted({ variables: { id: todo.id } })
+                }}
+                checked={todo.completed}
+                type="checkbox"
+              />
+              <span style={{ marginLeft: "10px" }}>{todo.body}</span>
+            </li>
+          ))}
+        </ul>
+      )}
     </Layout>
   )
 }

@@ -1,7 +1,21 @@
-/**
- * Implement Gatsby's Browser APIs in this file.
- *
- * See: https://www.gatsbyjs.org/docs/browser-apis/
- */
+export { wrapRootElement } from "./gatsby-ssr"
 
-// You can delete this file if you're not using it
+// import React from "react"
+
+// import {
+//   ApolloProvider,
+//   ApolloClient,
+//   InMemoryCache,
+//   HttpLink,
+// } from "@apollo/client"
+
+// const client = new ApolloClient({
+//   cache: new InMemoryCache(),
+//   link: new HttpLink({
+//     uri: "https://dummy-heads.netlify.app/.netlify/functions/graphql",
+//   }),
+// })
+
+// export const wrapRootElement = ({ element }) => (
+//   <ApolloProvider client={client}>{element}</ApolloProvider>
+// )
