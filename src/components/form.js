@@ -5,7 +5,14 @@ const Form = () => {
   const [level, setLevel] = useState("")
   const [message, setmessage] = useState("This site is amazing...")
   return (
-    <form name="contact" method="POST" data-netlify="true">
+    <form
+      method="post"
+      netlify-honeypot="bot-field"
+      data-netlify="true"
+      name="contact"
+    >
+      <input type="hidden" name="bot-field" />
+      <input type="hidden" name="form-name" value="contact" />
       <label htmlFor="name">Your name: </label>
       <p>
         <input
