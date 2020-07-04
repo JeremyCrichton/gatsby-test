@@ -5,7 +5,7 @@ import Layout from "../components/layout"
 import SEO from "../components/seo"
 
 const ADD_TODO = gql`
-  mutation AddTodo($type: String!) {
+  mutation AddTodo($body: String!) {
     addTodo(body: "first todo") {
       id
     }
