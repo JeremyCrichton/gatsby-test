@@ -31,35 +31,37 @@ const GET_TODOS = gql`
   }
 `
 
-const todosReducer = (state, action) => {
-  switch (action.type) {
-    case "addTodo":
-      return [{ completed: false, body: action.payload }, ...state]
-    case "toggleTodoCompleted":
-      const newState = [...state]
-      console.log(action.payload)
-      newState[action.payload] = {
-        completed: !state[action.payload].completed,
-        body: state[action.payload].body,
-      }
-      return newState
-  }
-}
+// const todosReducer = (state, action) => {
+//   switch (action.type) {
+//     case "addTodo":
+//       return [{ completed: false, body: action.payload }, ...state]
+//     case "toggleTodoCompleted":
+//       const newState = [...state]
+//       console.log(action.payload)
+//       newState[action.payload] = {
+//         completed: !state[action.payload].completed,
+//         body: state[action.payload].body,
+//       }
+//       return newState
+//   }
+// }
 
 const TodoPage = () => {
   const [newTodoBody, setNewTodoBody] = useState("")
   // const [todos, setTodos] = useState([])
-  const [todos, dispatch] = useReducer(todosReducer, [])
+  // const [todos, dispatch] = useReducer(todosReducer, [])
   // data we need is coming from the query below so don't need 2nd const {data} here
   const [addTodo] = useMutation(ADD_TODO)
   const [updateTodoCompleted] = useMutation(UPDATE_TODO_COMPLETED)
-  const { loading, error, data } = useQuery(GET_TODOS)
+  const { loading, error, data, refetch } = useQuery(GET_TODOS)
+  console.log(data)
 
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     e.preventDefault()
-    addTodo({ variables: { body: newTodoBody } })
+    await addTodo({ variables: { body: newTodoBody } })
     // dispatch({ type: "addTodo", payload: newTodoBody })
     setNewTodoBody("")
+    await refetch()
   }
 
   return (
@@ -81,11 +83,12 @@ const TodoPage = () => {
       {error && <div>{error.message}</div>}
       {!loading && !error && (
         <ul style={{ listStyle: "none", marginLeft: "0" }}>
-          {todos.map(todo => (
+          {data.todos.map(todo => (
             <li key={todo.id}>
               <input
-                onChange={() => {
-                  updateTodoCompleted({ variables: { id: todo.id } })
+                onChange={async () => {
+                  await updateTodoCompleted({ variables: { id: todo.id } })
+                  await refetch()
                 }}
                 checked={todo.completed}
                 type="checkbox"
