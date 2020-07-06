@@ -10,7 +10,9 @@ if (typeof window !== "undefined") {
 
 const IndexPage = () => {
   useEffect(() => {
-    netlifyIdentity.init({})
+    netlifyIdentity.init({
+      namePlaceholder: "Name",
+    })
   })
   return (
     <Layout>
@@ -18,7 +20,6 @@ const IndexPage = () => {
       <h1>This is the Homepage</h1>
       <Link to="/form-page/">Send us a message...</Link> <br />
       <Link to="/todo-page/">Go to the todo page</Link> <br />
-      <h1>Login</h1>
       <button
         onClick={() => {
           netlifyIdentity.open()
