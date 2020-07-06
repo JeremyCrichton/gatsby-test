@@ -1,13 +1,16 @@
 import React, { useEffect } from "react"
-// import netlifyIdentity from "netlify-identity-widget"
-
 import Layout from "../components/layout"
 import SEO from "../components/seo"
 
+let netlifyIdentity
+if (typeof window !== "undefined") {
+  netlifyIdentity = require("netlify-identity-widget")
+}
+
 const LoginPage = () => {
-  // useEffect(() => {
-  //   netlifyIdentity.init({})
-  // })
+  useEffect(() => {
+    netlifyIdentity.init({})
+  })
 
   return (
     <Layout>
@@ -15,7 +18,7 @@ const LoginPage = () => {
       <h1>Login</h1>
       <button
         onClick={() => {
-          // netlifyIdentity.open()
+          netlifyIdentity.open()
         }}
       >
         Login
@@ -23,8 +26,7 @@ const LoginPage = () => {
       <br />
       <button
         onClick={() => {
-          // console.log(netlifyIdentity.currentUser())
-          console.log("Hi")
+          console.log(netlifyIdentity.currentUser())
         }}
       >
         Log Current User
