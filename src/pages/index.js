@@ -2,7 +2,6 @@ import React, { useEffect } from "react"
 import { Link } from "gatsby"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
-import Login from "../components/login"
 
 let netlifyIdentity
 if (typeof window !== "undefined") {
@@ -19,7 +18,22 @@ const IndexPage = () => {
       <h1>This is the Homepage</h1>
       <Link to="/form-page/">Send us a message...</Link> <br />
       <Link to="/todo-page/">Go to the todo page</Link> <br />
-      <Login />
+      <h1>Login</h1>
+      <button
+        onClick={() => {
+          netlifyIdentity.open()
+        }}
+      >
+        Login
+      </button>
+      <br />
+      <button
+        onClick={() => {
+          console.log(netlifyIdentity.currentUser())
+        }}
+      >
+        Log Current User
+      </button>
     </Layout>
   )
 }
