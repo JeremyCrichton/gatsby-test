@@ -28,13 +28,16 @@ const resolvers = {
   Query: {
     hello: () => "Hello Launch School!",
     todos: async (parent, args, { user }) => {
+      console.log("user", user)
       if (!user) {
+        console.log("No user")
         return []
       } else {
         const results = await client.query(
           q.Paginate(q.Match(q.Index("todos_by_user"), user))
         )
-        return results.data.map(([ref, text, done]) => ({
+        console.log(results)
+        return results.data.map(([ref, body, completed]) => ({
           id: ref.id,
           body,
           completed,
