@@ -31,6 +31,6 @@ const client = new ApolloClient({
 })
 
 export const wrapRootElement = ({ element }) => {
-  console.log("gatsby ssr running")
+  console.log("gatsby browser running")
   return <ApolloProvider client={client}>{element}</ApolloProvider>
 }
