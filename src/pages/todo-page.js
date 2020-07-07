@@ -1,4 +1,4 @@
-import React, { useState, useReducer } from "react"
+import React, { useState, useEffect } from "react"
 import { gql, useMutation, useQuery } from "@apollo/client"
 
 import Layout from "../components/layout"
@@ -36,35 +36,16 @@ const GET_TODOS = gql`
   }
 `
 
-// const todosReducer = (state, action) => {
-//   switch (action.type) {
-//     case "addTodo":
-//       return [{ completed: false, body: action.payload }, ...state]
-//     case "toggleTodoCompleted":
-//       const newState = [...state]
-//       console.log(action.payload)
-//       newState[action.payload] = {
-//         completed: !state[action.payload].completed,
-//         body: state[action.payload].body,
-//       }
-//       return newState
-//   }
-// }
-
 const TodoPage = () => {
   const [newTodoBody, setNewTodoBody] = useState("")
-  // const [todos, setTodos] = useState([])
-  // const [todos, dispatch] = useReducer(todosReducer, [])
   // data we need is coming from the query below so don't need 2nd const {data} here
   const [addTodo] = useMutation(ADD_TODO)
   const [updateTodoCompleted] = useMutation(UPDATE_TODO_COMPLETED)
   const { loading, error, data, refetch } = useQuery(GET_TODOS)
-  console.log(data)
 
   const handleSubmit = async e => {
     e.preventDefault()
     await addTodo({ variables: { body: newTodoBody } })
-    // dispatch({ type: "addTodo", payload: newTodoBody })
     setNewTodoBody("")
     await refetch()
   }
@@ -73,6 +54,7 @@ const TodoPage = () => {
     <Layout>
       <SEO title="Todo" />
       <h1>This is the Todo Page</h1>
+
       <form onSubmit={handleSubmit}>
         <label htmlFor="name">Add a todo</label>
         <p>
@@ -103,12 +85,13 @@ const TodoPage = () => {
           ))}
         </ul>
       )}
+
       <button
         onClick={() => {
           console.log(netlifyIdentity.currentUser())
         }}
       >
-        Log current user
+        Log Current User
       </button>
     </Layout>
   )

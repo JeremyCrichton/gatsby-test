@@ -35,8 +35,26 @@ const GET_TODOS = gql`
     }
   }
 `
-const Todos = () => {
+
+// const todosReducer = (state, action) => {
+//   switch (action.type) {
+//     case "addTodo":
+//       return [{ completed: false, body: action.payload }, ...state]
+//     case "toggleTodoCompleted":
+//       const newState = [...state]
+//       console.log(action.payload)
+//       newState[action.payload] = {
+//         completed: !state[action.payload].completed,
+//         body: state[action.payload].body,
+//       }
+//       return newState
+//   }
+// }
+
+const TodoPage = () => {
   const [newTodoBody, setNewTodoBody] = useState("")
+  // const [todos, setTodos] = useState([])
+  // const [todos, dispatch] = useReducer(todosReducer, [])
   // data we need is coming from the query below so don't need 2nd const {data} here
   const [addTodo] = useMutation(ADD_TODO)
   const [updateTodoCompleted] = useMutation(UPDATE_TODO_COMPLETED)
@@ -46,12 +64,15 @@ const Todos = () => {
   const handleSubmit = async e => {
     e.preventDefault()
     await addTodo({ variables: { body: newTodoBody } })
+    // dispatch({ type: "addTodo", payload: newTodoBody })
     setNewTodoBody("")
     await refetch()
   }
 
   return (
-    <>
+    <Layout>
+      <SEO title="Todo" />
+      <h1>This is the Todo Page</h1>
       <form onSubmit={handleSubmit}>
         <label htmlFor="name">Add a todo</label>
         <p>
@@ -64,7 +85,7 @@ const Todos = () => {
         <input type="submit" value="Add" />
       </form>
       {loading && <div>loading...</div>}
-      {error && <div>{error.message}</div>}
+      {error && <div>{console.log(error.message)}No Todos</div>}
       {!loading && !error && (
         <ul style={{ listStyle: "none", marginLeft: "0" }}>
           {data.todos.map(todo => (
@@ -89,8 +110,8 @@ const Todos = () => {
       >
         Log current user
       </button>
-    </>
+    </Layout>
   )
 }
 
-export default Todos
+export default TodoPage
