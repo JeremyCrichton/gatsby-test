@@ -43,7 +43,7 @@ const resolvers = {
     },
   },
   Mutation: {
-    addTodo: (_, { body }, { user }) => {
+    addTodo: async (_, { body }, { user }) => {
       if (!user) {
         throw new Error("Must be authenticated to insert todos.")
       }
@@ -58,10 +58,10 @@ const resolvers = {
       )
       return {
         ...results.data,
-        id: results.ref.id
+        id: results.ref.id,
       }
     },
-    updateTodoCompleted: (_, { id }, {user}) => {
+    updateTodoCompleted: async (_, { id }, { user }) => {
       if (!user) {
         throw new Error("Must be authenticated to insert todos.")
       }
@@ -74,7 +74,7 @@ const resolvers = {
       )
       return {
         ...results.data,
-        id: results.ref.id
+        id: results.ref.id,
       }
     },
   },
