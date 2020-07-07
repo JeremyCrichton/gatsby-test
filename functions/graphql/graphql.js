@@ -1,6 +1,6 @@
 const { ApolloServer, gql } = require("apollo-server-lambda")
 const faunadb = require("faunadb")
-const q = faundadb.query
+const q = faunadb.query
 
 const client = new faunadb.Client({ secret: process.env.FAUNA })
 
