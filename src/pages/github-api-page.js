@@ -23,7 +23,7 @@ const AboutPage = () => {
 
       <ul>
         {repos.map(repo => (
-          <li>{repo.name}</li>
+          <li key={repo.id}>{repo.name}</li>
         ))}
       </ul>
       <br />

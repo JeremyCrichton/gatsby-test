@@ -43,6 +43,10 @@ const TodoPage = () => {
   const [updateTodoCompleted] = useMutation(UPDATE_TODO_COMPLETED)
   const { loading, error, data, refetch } = useQuery(GET_TODOS)
 
+  useEffect(() => {
+    // netlifyIdentity.refresh()
+  })
+
   const handleSubmit = async e => {
     e.preventDefault()
     await addTodo({ variables: { body: newTodoBody } })
