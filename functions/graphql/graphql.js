@@ -1,4 +1,8 @@
 const { ApolloServer, gql } = require("apollo-server-lambda")
+const faunadb = require("faunadb")
+const q = faundadb.query
+
+const client = new faunadb.Client({ secret: process.env.FAUNA })
 
 // Construct a schema, using GraphQL schema language
 const typeDefs = gql`
@@ -16,31 +20,62 @@ const typeDefs = gql`
     updateTodoCompleted(id: ID!): Todo
   }
 `
-const todos = {}
-let todoIndex = 0
+// const todos = {}
+// let todoIndex = 0
 
 // Provide resolver functions for your schema fields
 const resolvers = {
   Query: {
-    hello: () => "Hello Launch School world!",
-    todos: (parent, args, { user }) => {
+    hello: () => "Hello Launch School!",
+    todos: async (parent, args, { user }) => {
       if (!user) {
         return []
       } else {
-        return Object.values(todos)
+        const results = await client.query(
+          q.Paginate(q.Match(q.Index("todos_by_user"), user))
+        )
+        return results.data.map(([ref, text, done]) => ({
+          id: ref.id,
+          body,
+          completed,
+        }))
       }
     },
   },
   Mutation: {
-    addTodo: (_, { body }) => {
-      todoIndex++
-      const id = `key-${todoIndex}`
-      todos[id] = { id, body, completed: false }
-      return todos[id]
+    addTodo: (_, { body }, { user }) => {
+      if (!user) {
+        throw new Error("Must be authenticated to insert todos.")
+      }
+      const results = await client.query(
+        q.Create(q.Collection("todos"), {
+          data: {
+            body,
+            completed: false,
+            owner: user,
+          },
+        })
+      )
+      return {
+        ...results.data,
+        id: results.ref.id
+      }
     },
-    updateTodoCompleted: (_, { id }) => {
-      todos[id].completed = !todos[id].completed
-      return todos[id]
+    updateTodoCompleted: (_, { id }, {user}) => {
+      if (!user) {
+        throw new Error("Must be authenticated to insert todos.")
+      }
+      const results = await client.query(
+        q.Update(q.Ref(q.Collection("todos"), id), {
+          data: {
+            completed: true,
+          },
+        })
+      )
+      return {
+        ...results.data,
+        id: results.ref.id
+      }
     },
   },
 }
