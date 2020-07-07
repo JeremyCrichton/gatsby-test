@@ -18,8 +18,8 @@ const ADD_TODO = gql`
 `
 
 const UPDATE_TODO_COMPLETED = gql`
-  mutation UpdateTodoCompleted($id: ID!) {
-    updateTodoCompleted(id: $id) {
+  mutation UpdateTodoCompleted($id: ID!, $completed: Boolean!) {
+    updateTodoCompleted(id: $id, completed: $completed) {
       body
       completed
     }
@@ -78,7 +78,9 @@ const TodoPage = () => {
             <li key={todo.id}>
               <input
                 onChange={async () => {
-                  await updateTodoCompleted({ variables: { id: todo.id } })
+                  await updateTodoCompleted({
+                    variables: { id: todo.id, completed: todo.completed },
+                  })
                   await refetch()
                 }}
                 checked={todo.completed}

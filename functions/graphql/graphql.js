@@ -64,14 +64,14 @@ const resolvers = {
         id: results.ref.id,
       }
     },
-    updateTodoCompleted: async (_, { id }, { user }) => {
+    updateTodoCompleted: async (_, { id, completed }, { user }) => {
       if (!user) {
-        throw new Error("Must be authenticated to insert todos.")
+        throw new Error("Must be authenticated to update todos.")
       }
       const results = await client.query(
         q.Update(q.Ref(q.Collection("todos"), id), {
           data: {
-            completed: true,
+            completed: !completed,
           },
         })
       )
