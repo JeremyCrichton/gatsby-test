@@ -18,9 +18,10 @@ const IndexPage = () => {
     <Layout>
       <SEO title="Home" />
       <h1>This is the Homepage</h1>
-      <Link to="/about-page/">Go to the about page</Link> <br />
-      <Link to="/form-page/">Send us a message...</Link> <br />
-      <Link to="/todo-page/">Go to the todo page</Link> <br />
+      <Link to="/about-page/">Go to the About page</Link> <br />
+      <Link to="/github-api-page/">Go to the Github repos page</Link> <br />
+      <Link to="/form-page/">Send me a message</Link> <br />
+      <Link to="/todo-page/">Go to the Todos page</Link> <br />
       <hr />
       <button
         onClick={() => {

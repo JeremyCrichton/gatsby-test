@@ -31,9 +31,7 @@ const Form = () => {
         >
           <option value="more">So great</option>
           <option value="more">Pretty great</option>
-          <option value="most">
-            The most greatest (...Chris, is this you?)
-          </option>
+          <option value="most">The most greatest</option>
         </select>
       </p>
       <label htmlFor="message">Write a nice message to us: </label>
